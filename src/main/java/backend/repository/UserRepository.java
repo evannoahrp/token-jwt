@@ -8,4 +8,5 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
     @Query("FROM User u WHERE LOWER(u.username) = LOWER(?1)")
     User findOneByUsername(String username);
+
 }

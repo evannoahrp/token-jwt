@@ -185,4 +185,5 @@ public class Client implements ClientDetails, Serializable {
     public Map<String, Object> getAdditionalInformation() {
         return new HashMap<>();
     }
+
 }

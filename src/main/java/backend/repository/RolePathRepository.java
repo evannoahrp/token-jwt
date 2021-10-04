@@ -16,4 +16,5 @@ public interface RolePathRepository extends PagingAndSortingRepository<RolePath,
             "JOIN oauth_user_role ur ON ur.role_id = r.id " +
             "WHERE ur.user_id = ?1", nativeQuery = true)
     <T extends UserDetails> List<RolePath> findByUser(T user);
+
 }

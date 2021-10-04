@@ -18,53 +18,51 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class Oauth2AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private Oauth2ClientDetailsService clientDetailsService;
+    private final Oauth2ClientDetailsService oauth2ClientDetailsService;
 
-    @Autowired
-    private Oauth2UserDetailsService userDetailsService;
+    private final Oauth2UserDetailsService oauth2UserDetailsService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private AccessTokenConverter accessTokenConverter;
+    private final AccessTokenConverter accessTokenConverter;
 
-    @Autowired
-    private TokenStore tokenStore;
+    private final TokenStore tokenStore;
 
-    /**
-     * Change server config, password encoder etc.
-     */
+    public Oauth2AuthorizationServerConfiguration(Oauth2ClientDetailsService oauth2ClientDetailsService,
+                                                  Oauth2UserDetailsService oauth2UserDetailsService,
+                                                  AuthenticationManager authenticationManager,
+                                                  PasswordEncoder passwordEncoder,
+                                                  AccessTokenConverter accessTokenConverter,
+                                                  TokenStore tokenStore) {
+        this.oauth2ClientDetailsService = oauth2ClientDetailsService;
+        this.oauth2UserDetailsService = oauth2UserDetailsService;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.accessTokenConverter = accessTokenConverter;
+        this.tokenStore = tokenStore;
+    }
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer server) throws Exception {
         server.allowFormAuthenticationForClients()
-//                .tokenKeyAccess("permitAll()")
-//                .checkTokenAccess("isAuthenticated()")
                 .passwordEncoder(passwordEncoder)
         ;
     }
 
-    /**
-     * Change client details etc.
-     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(clientDetailsService);
+        clients.withClientDetails(oauth2ClientDetailsService);
     }
 
-    /**
-     * Change user details etc.
-     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager)
                 .tokenStore(tokenStore)
                 .accessTokenConverter(accessTokenConverter)
-                .userDetailsService(userDetailsService)
+                .userDetailsService(oauth2UserDetailsService)
         ;
     }
+
 }

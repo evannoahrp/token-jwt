@@ -36,4 +36,5 @@ public class CorsOriginConfiguration implements Filter {
             filter.doFilter(req, res);
         }
     }
+
 }

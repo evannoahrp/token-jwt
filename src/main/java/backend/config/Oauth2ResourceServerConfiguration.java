@@ -10,19 +10,13 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @EnableResourceServer
 public class Oauth2ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
-    /**
-     * Manage resource server.
-     */
+    private static final String SECURED_PATTERN = "/api/**";
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         super.configure(resources);
     }
 
-    private static final String SECURED_PATTERN = "/api/**";
-
-    /**
-     * Manage endpoints.
-     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.cors()
@@ -41,38 +35,5 @@ public class Oauth2ResourceServerConfiguration extends ResourceServerConfigurerA
                 .formLogin()
                 .permitAll()
         ;
-
-//        http.cors()
-//                .and()
-//                .csrf()
-//                .disable()
-//                .antMatcher("/**")
-//                .authorizeRequests()
-//                    .antMatchers("/",  "/oauth/authorize**", "/ar/**", "/api/ar/**", "/login**", "/error**")
-//                    .permitAll()
-//                .and()
-//                .authorizeRequests()
-//                    .anyRequest()
-//                    .authenticated()
-////                .and()
-////                    .formLogin()
-////                    .permitAll()
-//        ;
-
-
-//        http.requestMatchers()
-//                .antMatchers("/api/v1/**")
-//                .and()
-//                .authorizeRequests()
-//                    .antMatchers("/api/v1/**", "/oauth/authorize**", "/login**", "/error**")
-//                    .permitAll()
-//                .and()
-//                .authorizeRequests()
-//                    .anyRequest()
-//                    .authenticated()
-//                .and()
-//                    .formLogin()
-//                    .permitAll()
-//        ;
     }
 }

@@ -8,8 +8,12 @@ import org.springframework.web.context.WebApplicationContext;
 @Configuration
 public class RestRepositoryConfiguration implements RepositoryRestConfigurer {
 
+    private WebApplicationContext webApplicationContext;
+
     @Autowired
-    private WebApplicationContext context;
+    public RestRepositoryConfiguration(WebApplicationContext webApplicationContext) {
+        this.webApplicationContext = webApplicationContext;
+    }
 
 }
 

@@ -21,21 +21,21 @@ import java.util.Map;
 @RestController
 public class MainController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final Oauth2UserDetailsService oauth2UserDetailsService;
+
+    private final RolePathChecker rolePathChecker;
 
     @Autowired
-    private Oauth2UserDetailsService userDetailsService;
-
-    @Autowired
-    private RolePathChecker checker;
+    public MainController(Oauth2UserDetailsService oauth2UserDetailsService,
+                          RolePathChecker rolePathChecker) {
+        this.oauth2UserDetailsService = oauth2UserDetailsService;
+        this.rolePathChecker = rolePathChecker;
+    }
 
     @RequestMapping("/")
     public Map<String, Boolean> indexAction() {
         Map<String, Boolean> response = new HashMap<>();
-
         response.put("success", true);
-
         return response;
     }
 
@@ -52,25 +52,20 @@ public class MainController {
         if (StringUtils.isEmpty(xUri) && query.containsKey("uri")) {
             xUri = query.get("uri");
         }
-
         if (!StringUtils.isEmpty(username)) {
-            user = userDetailsService.loadUserByUsername(username);
+            user = oauth2UserDetailsService.loadUserByUsername(username);
         }
-
         if (null == user) {
             throw new UsernameNotFoundException("User not found");
         }
-
-        if (!checker.isAllow(user, xUri, request.getMethod())) {
+        if (!rolePathChecker.isAllow(user, xUri, request.getMethod())) {
             throw new Forbidden("Not enough access to this endpoint");
         }
-
         response.addHeader("X-User", user.getUsername());
-
         Map<String, String> userFound = new HashMap<>();
         userFound.put("username", user.getUsername());
-
         return userFound;
     }
+
 }
 

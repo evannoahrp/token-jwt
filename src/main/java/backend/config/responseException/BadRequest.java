@@ -17,7 +17,6 @@ public class BadRequest extends RuntimeException {
 
     public List<Map<String, Object>> getErrors() {
         List<Map<String, Object>> errors = new ArrayList<>();
-
         Map<String, Object> detail = new HashMap<>();
         detail.put("codes", new ArrayList<>());
         detail.put("default_message", getMessage());
@@ -27,10 +26,9 @@ public class BadRequest extends RuntimeException {
         detail.put("rejected_value", null);
         detail.put("binding_failure", null);
         detail.put("code", null);
-
         errors.add(detail);
-
         return errors;
     }
+
 }
 

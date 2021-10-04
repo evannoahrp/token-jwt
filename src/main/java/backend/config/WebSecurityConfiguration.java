@@ -26,6 +26,8 @@ import javax.annotation.Priority;
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private final Oauth2AccessTokenConverter oauth2AccessTokenConverter;
+
     @Value("${security.bcrypt.cost:13}")
     private int cost;
 
@@ -36,7 +38,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private String jwtSecretKey;
 
     @Autowired
-    private Oauth2AccessTokenConverter accessTokenConverter;
+    public WebSecurityConfiguration(Oauth2AccessTokenConverter oauth2AccessTokenConverter) {
+        this.oauth2AccessTokenConverter = oauth2AccessTokenConverter;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -61,7 +65,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AccessTokenConverter accessTokenConverter() {
         if (jwtEnabled) {
             JwtAccessTokenConverter jwtConverter = new JwtAccessTokenConverter();
-            jwtConverter.setAccessTokenConverter(accessTokenConverter);
+            jwtConverter.setAccessTokenConverter(oauth2AccessTokenConverter);
             jwtConverter.setSigningKey(jwtSecretKey);
 
             return jwtConverter;
@@ -80,9 +84,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return services;
     }
 
-//    @Override //riki   digunakan untuk mematikan forget password, guna untuk forget password == video
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
-//    }
 }
 
