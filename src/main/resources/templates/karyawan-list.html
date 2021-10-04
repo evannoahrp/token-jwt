@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List Karyawan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>List Karyawan</h1>
+    <div>
+        <nobr>
+            <a th:href="@{/v1/view/karyawan/add}">Add Karyawan</a> |
+            <a th:href="@{/v1/view/karyawan/}">Back to Index</a>
+        </nobr>
+    </div>
+    <br/><br/>
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Sex</th>
+                <th scope="col">Date of Birth</th>
+                <th scope="col">Age</th>
+                <th scope="col">Address</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="karyawan : ${karyawan}">
+                <td><a th:href="@{/v1/view/karyawan/{karyawanId}(karyawanId=${karyawan.id})}"
+                       th:utext="${karyawan.nama}">...</a>
+                </td>
+                <td th:utext="${karyawan.jeniskelamin}">...</td>
+                <td th:utext="${karyawan.dob}">...</td>
+                <td th:utext="${karyawan.age}">...</td>
+                <td th:utext="${karyawan.alamat}">...</td>
+                <td th:utext="${karyawan.status}">...</td>
+                <td><a th:href="@{/v1/view/karyawan/{karyawanId}/edit(karyawanId=${karyawan.id})}">Edit</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/><br/>
+    <div>
+        <nobr>
+            <span th:if="${hasPrev}"><a th:href="@{/v1/view/karyawan/list?page={prev}(prev=${prev})}">Prev</a>&nbsp;&nbsp;&nbsp;</span>
+            <span th:if="${hasNext}"><a th:href="@{/v1/view/karyawan/list?page={next}(next=${next})}">Next</a></span>
+        </nobr>
+    </div>
+</div>
+</body>
+</html>

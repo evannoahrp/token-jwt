@@ -1,0 +1,16 @@
+--DROP TABLE IF EXISTS h2;
+--DROP SEQUENCE IF EXISTS h2_sequence;
+--
+--CREATE SEQUENCE h2_sequence;
+--
+--CREATE TABLE h2 (
+--    id INT NOT NULL DEFAULT nextval('h2_sequence') PRIMARY KEY,
+--    first_name VARCHAR(250) NOT NULL,
+--    last_name VARCHAR(250) NOT NULL,
+--    carrer VARCHAR(250) DEFAULT NULL
+--);
+--
+--INSERT INTO h2 (first_name, last_name, carrer) values
+--    ('a', 'a', 'A'),
+--    ('b', 'b', 'B'),
+--    ('c', 'c', 'C');

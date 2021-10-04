@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>View Karyawan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>View Karyawan</h1>
+    <a th:href="@{/v1/view/karyawan/list}">Back to Karyawan List</a>
+    <br/><br/>
+    <div th:if="${karyawan}">
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                Name
+            </div>
+            <div class="col-3" th:utext="${karyawan.nama}"></div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                Sex
+            </div>
+            <div class="col-3" th:utext="${karyawan.jeniskelamin}"></div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                Date of Birth
+            </div>
+            <div class="col-3" th:utext="${karyawan.dob}"></div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                Age
+            </div>
+            <div class="col-3" th:utext="${karyawan.age}"></div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                Address
+            </div>
+            <div class="col-3" th:utext="${karyawan.alamat}"></div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                Status
+            </div>
+            <div class="col-3" th:utext="${karyawan.status}"></div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                NIK
+            </div>
+            <div class="col-3" th:utext="${karyawan.detailkaryawan.nik}"></div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                NPWP
+            </div>
+            <div class="col-3" th:utext="${karyawan.detailkaryawan.npwp}"></div>
+        </div>
+        <div th:if="not ${allowDelete}">
+            <a th:href="@{/v1/view/karyawan/{karyawanId}/edit(karyawanId=${karyawan.id})}">Edit</a> |
+            <a th:href="@{/v1/view/karyawan/{karyawanId}/delete(karyawanId=${karyawan.id})}">Delete</a>
+        </div>
+        <form th:if="${allowDelete}" th:action="@{/v1/view/karyawan/{karyawanId}/delete(karyawanId=${karyawan.id})}"
+              method="POST">
+            <div class="row justify-content-start mb-3">
+                <div class="col-2">
+                    Delete this karyawan?
+                </div>
+                <div class="col-3">
+                    <input type="submit" class="btn btn-outline-danger" th:value="Yes"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div th:if="${errorMessage}" th:utext="${errorMessage}" class="error"></div>
+</div>
+</body>
+</html>

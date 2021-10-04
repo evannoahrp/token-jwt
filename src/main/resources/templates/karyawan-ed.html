@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${add} ? 'Create karyawan' : 'Edit karyawan'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-4">
+    <h1 th:text="${add} ? 'Create karyawan' : 'Edit karyawan'"></h1>
+    <a th:href="@{/v1/view/karyawan/list}">Back to Karyawan List</a>
+    <br/><br/>
+    <form th:action="${add} ? @{/v1/view/karyawan/add} : @{/v1/view/karyawan/{karyawanId}/edit(karyawanId=${karyawan.id})}"
+          th:object="${karyawan}" method="POST">
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                Name
+            </div>
+            <div class="col-3">
+                <input type="text" class="form-control" th:field="*{nama}"/>
+            </div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                Sex
+            </div>
+            <div class="col-3">
+                <input type="text" class="form-control" th:field="*{jeniskelamin}"/>
+            </div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                Date of Birth
+            </div>
+            <div class="col-3">
+                <input type="date" class="form-control" th:field="*{dob}"/>
+            </div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                Address
+            </div>
+            <div class="col-3">
+                <input type="text" class="form-control" th:field="*{alamat}"/>
+            </div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                Status
+            </div>
+            <div class="col-3">
+                <input type="text" class="form-control" th:field="*{status}"/>
+            </div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                NIK
+            </div>
+            <div class="col-3">
+                <input type="text" class="form-control" th:field="*{detailkaryawan.nik}"/>
+            </div>
+        </div>
+        <div class="row justify-content-start mb-3">
+            <div class="col-2">
+                NPWP
+            </div>
+            <div class="col-3">
+                <input type="text" class="form-control" th:field="*{detailkaryawan.npwp}"/>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-outline-primary" th:value="${add} ? 'Create' : 'Update'"/>
+    </form>
+    <br/>
+    <div th:if="${errorMessage}" th:utext="${errorMessage}" class="error"></div>
+</div>
+</body>
+</html>
