@@ -1,19 +1,22 @@
 package backend.controller;
 
 import backend.config.responseException.Forbidden;
-import backend.repository.UserRepository;
+import backend.model.RegisterModel;
+import backend.service.RegisterService;
 import backend.service.oauth.Oauth2UserDetailsService;
 import backend.service.oauth.RolePathChecker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,11 +28,15 @@ public class MainController {
 
     private final RolePathChecker rolePathChecker;
 
+    private final RegisterService registerService;
+
     @Autowired
     public MainController(Oauth2UserDetailsService oauth2UserDetailsService,
-                          RolePathChecker rolePathChecker) {
+                          RolePathChecker rolePathChecker,
+                          RegisterService registerService) {
         this.oauth2UserDetailsService = oauth2UserDetailsService;
         this.rolePathChecker = rolePathChecker;
+        this.registerService = registerService;
     }
 
     @RequestMapping("/")
@@ -65,6 +72,14 @@ public class MainController {
         Map<String, String> userFound = new HashMap<>();
         userFound.put("username", user.getUsername());
         return userFound;
+    }
+
+    @PostMapping("/register")
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map> save(@Valid @RequestBody RegisterModel registerModel) throws RuntimeException {
+        Map map = new HashMap();
+        map = registerService.registerManual(registerModel);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
 }

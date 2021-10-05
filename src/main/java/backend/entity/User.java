@@ -21,6 +21,9 @@ public class User implements UserDetails, Serializable {
     @Column(length = 100)
     private String username;
 
+    @Column(length = 100, nullable = true)
+    private String fullname;
+
     @JsonIgnore
     private String password;
 
@@ -88,6 +91,14 @@ public class User implements UserDetails, Serializable {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     @Override
