@@ -47,7 +47,7 @@ public class MainController {
     }
 
     @RequestMapping("/oauth/authenticate")
-    public Map<String, String> authenticateAction(
+    public Map<String, Object> authenticateAction(
             @RequestParam Map<String, String> query,
             HttpServletResponse response,
             HttpServletRequest request,
@@ -65,12 +65,12 @@ public class MainController {
         if (null == user) {
             throw new UsernameNotFoundException("User not found");
         }
-        if (!rolePathChecker.isAllow(user, xUri, request.getMethod())) {
-            throw new Forbidden("Not enough access to this endpoint");
-        }
+//        if (!rolePathChecker.isAllow(user, xUri, request.getMethod())) {
+//            throw new Forbidden("Not enough access to this endpoint");
+//        }
         response.addHeader("X-User", user.getUsername());
-        Map<String, String> userFound = new HashMap<>();
-        userFound.put("username", user.getUsername());
+        Map<String, Object> userFound = new HashMap<>();
+        userFound.put("data", user);
         return userFound;
     }
 

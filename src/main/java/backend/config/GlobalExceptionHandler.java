@@ -1,4 +1,4 @@
-package backend.config.responseException;
+package backend.config;
 
 import java.util.HashMap;
 import java.util.List;
