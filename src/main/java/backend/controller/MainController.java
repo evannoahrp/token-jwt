@@ -43,6 +43,7 @@ public class MainController {
     public Map<String, Boolean> indexAction() {
         Map<String, Boolean> response = new HashMap<>();
         response.put("success", true);
+        response.put("message", "latihan16-evan-cloud-heroku");
         return response;
     }
 
