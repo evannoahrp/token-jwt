@@ -40,9 +40,9 @@ public class MainController {
     }
 
     @RequestMapping("/")
-    public Map<String, Boolean> indexAction() {
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("success", true);
+    public Map<String, String> indexAction() {
+        Map<String, String> response = new HashMap<>();
+        response.put("success", "true");
         response.put("message", "latihan16-evan-cloud-heroku");
         return response;
     }
