@@ -9,6 +9,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Objects;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -31,14 +33,16 @@ public class MainControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "application/json");
         headers.set("Content-Type", "application/json");
-        String bodyTesting = "{ \"username\": \"evan@mail.com\", \"fullname\": \"evan\", \"password\": \"password\" }";
-        HttpEntity<String> entity = new HttpEntity<>(bodyTesting, headers);
 
-        ResponseEntity<String> exchange = testRestTemplate.exchange("http://localhost:" + port + "/register", HttpMethod.POST, entity, String.class);
+        ResponseEntity<Object> exchange = testRestTemplate.exchange(
+                "http://localhost:" + port + "/register",
+                HttpMethod.POST,
+                new HttpEntity<>("{ \"username\": \"evan@mail.com\", \"fullname\": \"evan\", \"password\": \"password\" }", headers),
+                Object.class
+        );
 
         assertEquals(HttpStatus.OK, exchange.getStatusCode());
-        assertEquals("application/json", exchange.getHeaders().get("Content-Type").get(0));
-        System.out.println(exchange.getBody());
+        assertEquals("application/json", Objects.requireNonNull(exchange.getHeaders().get("Content-Type")).get(0));
     }
 
 }
